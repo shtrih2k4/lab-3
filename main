@@ -1,0 +1,62 @@
+#include <iostream>
+#include<vector>
+using namespace std;   
+
+struct Node {
+    Node* left_node;
+    Node* right_node;
+    int val;
+};
+void push_in_tree(Node** t, int val) {
+    if (*t == NULL) {
+        *t = new Node;
+        (*t)->val = val;
+        (*t)->left_node = (*t)->right_node = NULL;
+        return;
+    }
+    else if (val > (*t)->val) {
+        push_in_tree(&(*t)->right_node, val);
+    }
+    else {
+        push_in_tree(&(*t)->left_node, val);
+    }
+}
+Node* tree = NULL;
+void tree_sorting(vector<int>& a, Node** t,unsigned int &i) {
+    
+    if (*t == NULL) return;
+    else {
+        tree_sorting(a, &(*t)->left_node,i);
+        a[i] = (*t)->val;
+        i++;
+        tree_sorting(a, &(*t)->right_node,i);
+    }
+}
+
+void sorting_by_tree(vector<int>& a, Node** t) {
+    unsigned int i = 0;
+    for (auto i = 0; i < a.size(); ++i) {
+        push_in_tree(t, a[i]);
+    }
+    tree_sorting(a, t,i);
+    *t = NULL;
+}
+inline void push_back(vector<int>& a,int val) {
+    a.push_back(val);
+    sorting_by_tree(a, &tree);
+}
+inline void erase(vector<int>& a, int pos) {
+    a.erase(a.begin() + pos - 1);
+    sorting_by_tree(a, &tree);
+}
+int main() {
+
+    vector<int> sequence({ 5,7,3});
+    push_back(sequence, 6);
+    erase(sequence, 4);
+
+   for (auto& k : sequence) {
+        cout << k << " ";
+    }
+    return 0;
+}
