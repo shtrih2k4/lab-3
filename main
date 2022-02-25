@@ -43,7 +43,7 @@ void sorting_by_tree(vector<int>& a,Node* t) {
 	}
 }
 
-vector<int> temp;
+
 Node** del_for_non_nulls(Node** t) {
 	if ((*t)->left != NULL) {
 		del_for_non_nulls(&(*t)->left);
@@ -101,7 +101,7 @@ inline void erase(vector<int>& a, unsigned int pos) {
 	root = tree;
 	a.erase(a.begin() + pos - 1);
 	sorting_by_tree(a,root);
-	
+	tree = root;
 	
 };
 int main() {
